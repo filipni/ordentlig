@@ -4,19 +4,14 @@ import './Tile.css';
 class Tile extends react.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            letter: props.Letter,
-            color: 'grey',
-            hidden: true
-        };
     }
     
     render() {
+        const style = {backgroundColor:this.props.color};
         return (
-            <div className="Tile" style={{backgroundColor:this.state.color}}>
-                {this.state.hidden ? '' : this.state.Letter}
-            </div>
-        );
+            <div className="Tile" style={style}>
+                {this.props.hidden ? '' : this.props.letter}
+            </div>);
     }
 }
 
