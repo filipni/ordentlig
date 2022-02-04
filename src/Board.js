@@ -5,29 +5,53 @@ import './Board.css'
 class Board extends React.Component {
     constructor(props) {
         super(props);
+
+        const numberOfGuesses = 6;
+        const wordLength = 5;
+        const numberOfTiles = numberOfGuesses * wordLength;
+
         this.state = {
             word: 'saint',
             activeTile: 0,
-            tiles: Array(30).fill(null),
-            numberOfGuesses: 6,
-            wordLength: 5,
+            tiles: Array(numberOfTiles).fill(null),
+            numberOfGuesses: numberOfGuesses,
+            wordLength: wordLength,
         };
+
         this.handleKeyDown = this.handleKeyDown.bind(this);
     }
 
     handleKeyDown(e) {
-        if (!this.characterIsALetter(e.key)) return;
+        if (this.state.activeTile >= this.state.numberOfTiles) return;
 
+        if(e.key === 'Backspace')
+            this.handleBackSpace();
+        else if (this.characterIsALetter(e.key))
+            this.handleLetter(e.key.toLowerCase())
+    }
+
+    characterIsALetter(c) {
+        return (/^[a-zA-Z]$/).test(c);
+    }
+
+    handleLetter(letter) {
         this.setState(prevState => {
-            const letter = e.key.toLowerCase();
             let updatedTiles = prevState.tiles.slice();
             updatedTiles[prevState.activeTile] = letter;
             return {tiles: updatedTiles, activeTile: prevState.activeTile + 1};
         });
     }
 
-    characterIsALetter(c) {
-        return (/^[a-zA-Z]$/).test(c);
+    handleBackSpace() {
+        this.setState(prevState => {
+            if (prevState.activeTile % prevState.wordLength === 0) return;
+
+            let activeTile = prevState.activeTile - 1; 
+            let updatedTiles = prevState.tiles.slice();
+            updatedTiles[activeTile] = null;
+
+            return {tiles: updatedTiles, activeTile: activeTile};
+        })
     }
     
     renderRow(index) {
