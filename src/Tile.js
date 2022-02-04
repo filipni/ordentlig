@@ -10,7 +10,7 @@ class Tile extends react.Component {
         const style = {backgroundColor:this.props.color};
         return (
             <div className="Tile" style={style}>
-                {this.props.hidden ? '' : this.props.letter}
+                {this.props.hidden ? '' : this.props.letter.toUpperCase()}
             </div>);
     }
 }

@@ -2,6 +2,10 @@ import React from 'react';
 import Tile from './Tile.js'
 import './Row.css';
 
+const correctColor = '#0f5719';
+const partialColor = '#d4af37';
+const incorrectColor = '#787c7e';
+
 class Row extends React.Component {
     constructor(props) {
         super(props);
@@ -9,15 +13,15 @@ class Row extends React.Component {
 
     renderTile(index, letter)
     {
-        let color = 'grey';
+        let color = incorrectColor;
 
         if (this.props.word[index] === letter)
-            color = 'green';
+            color = correctColor;
         else if (this.props.word.includes(letter))
         {
             const previousOccurences = [...this.props.letters.slice(0, index)].filter(c => c === letter);
             const countInWord = [...this.props.word].filter(c => c === letter);
-            color = previousOccurences < countInWord ? 'yellow' : 'grey';
+            color = previousOccurences < countInWord ? partialColor : incorrectColor;
         }
 
         const hidden = letter === null;
