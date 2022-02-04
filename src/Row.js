@@ -7,10 +7,6 @@ const partialColor = '#d4af37';
 const incorrectColor = '#787c7e';
 
 class Row extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     renderTile(index, letter)
     {   const rowIsNotComplete = this.props.letters.includes(null);
         const color = rowIsNotComplete ? incorrectColor : this.getTileColor(index, letter); 
