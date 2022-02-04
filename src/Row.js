@@ -12,21 +12,26 @@ class Row extends React.Component {
     }
 
     renderTile(index, letter)
-    {
-        let color = incorrectColor;
-
-        if (this.props.word[index] === letter)
-            color = correctColor;
-        else if (this.props.word.includes(letter))
-        {
-            const previousOccurences = [...this.props.letters.slice(0, index)].filter(c => c === letter);
-            const countInWord = [...this.props.word].filter(c => c === letter);
-            color = previousOccurences < countInWord ? partialColor : incorrectColor;
-        }
+    {   const rowIsNotComplete = this.props.letters.includes(null);
+        const color = rowIsNotComplete ? incorrectColor : this.getTileColor(index, letter); 
 
         const hidden = letter === null;
 
         return <Tile key={index} letter={letter} color={color} hidden={hidden} />;
+    }
+
+    getTileColor(index, letter)
+    {
+        if (this.props.word[index] === letter)
+            return correctColor;
+        else if (this.props.word.includes(letter))
+        {
+            const previousOccurences = [...this.props.letters.slice(0, index)].filter(c => c === letter);
+            const countInWord = [...this.props.word].filter(c => c === letter);
+            return previousOccurences < countInWord ? partialColor : incorrectColor;
+        }
+
+        return incorrectColor;
     }
 
     render() {
