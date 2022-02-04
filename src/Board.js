@@ -41,6 +41,7 @@ class Board extends React.Component {
     render() {
         return (
             <div tabIndex={0} className="Board" onKeyDown={this.handleKeyDown}>
+                <div className='Banner'>ordentlig</div>
                 {[...Array(this.state.numberOfGuesses).keys()].map((index) =>
                     this.renderRow(index)
                 )}

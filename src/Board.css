@@ -1,3 +1,16 @@
 .Board {
     margin-top: 25px;
 }
+
+.Banner {
+    background-color: black;
+    color: white;
+    display: block;
+    max-width: 330px;
+    text-align: center;
+    margin: -20px auto 10px auto;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 24px;
+    font-family: sans-serif;
+}
