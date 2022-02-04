@@ -16,6 +16,7 @@ class Board extends React.Component {
             tiles: Array(numberOfTiles).fill(null),
             numberOfGuesses: numberOfGuesses,
             wordLength: wordLength,
+            gameOver: false
         };
 
         this.handleKeyDown = this.handleKeyDown.bind(this);
