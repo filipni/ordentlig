@@ -27,7 +27,7 @@ class Board extends React.Component {
     }
 
     characterIsALetter(c) {
-        return (/[a-zA-Z]/).test(c)
+        return (/^[a-zA-Z]$/).test(c);
     }
     
     renderRow(index) {
