@@ -53,14 +53,6 @@ class Board extends React.Component {
             return {tiles: updatedTiles, activeTile: activeTile};
         })
     }
-    
-    renderRow(index) {
-        const rowStart = index * this.state.wordLength; 
-        const rowEnd = rowStart + this.state.wordLength;
-        const rowLetters = this.state.tiles.slice(rowStart, rowEnd);
-
-        return <Row key={index} word={this.state.word} letters={rowLetters} />;
-    }
 
     render() {
         return (
@@ -71,6 +63,17 @@ class Board extends React.Component {
                 )}
             </div>
         );
+    }
+    
+    renderRow(index) {
+        return <Row key={index} word={this.state.word} letters={this.getRowLetters(index)} />;
+    }
+
+    getRowLetters(index) {
+        const rowStart = index * this.state.wordLength; 
+        const rowEnd = rowStart + this.state.wordLength;
+        const rowLetters = this.state.tiles.slice(rowStart, rowEnd);
+        return rowLetters;
     }
 }
 
