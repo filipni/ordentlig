@@ -16,43 +16,43 @@ class Board extends React.Component {
             tiles: Array(numberOfTiles).fill(null),
             numberOfGuesses: numberOfGuesses,
             wordLength: wordLength,
-            gameOver: false
+            gameover: false
         };
 
         this.handleKeyDown = this.handleKeyDown.bind(this);
     }
 
     handleKeyDown(e) {
-        if (this.state.activeTile >= this.state.numberOfTiles) return;
+        if (this.state.gameover || this.state.activeTile >= this.state.numberOfTiles) return;
 
-        if(e.key === 'Backspace')
-            this.handleBackSpace();
-        else if (this.characterIsALetter(e.key))
-            this.handleLetter(e.key.toLowerCase())
+        this.setState(prevState => {
+            if(e.key === 'Backspace')
+            {
+                if (prevState.activeTile % prevState.wordLength === 0) return;
+
+                let activeTile = prevState.activeTile - 1; 
+                let updatedTiles = prevState.tiles.slice();
+                updatedTiles[activeTile] = null;
+
+                return {tiles: updatedTiles, activeTile: activeTile};
+            }
+            else if (this.characterIsALetter(e.key))
+            {
+                let updatedTiles = prevState.tiles.slice();
+                updatedTiles[prevState.activeTile] = e.key.toLowerCase();
+
+                const rowIndex = Math.floor(prevState.activeTile / prevState.wordLength);
+                const guessedWord = this.getRowLetters(updatedTiles, rowIndex).join("");
+
+                const gameover = guessedWord === prevState.word;
+
+                return {tiles: updatedTiles, activeTile: prevState.activeTile + 1, gameover: gameover};
+            }
+        });
     }
 
     characterIsALetter(c) {
         return (/^[a-zA-Z]$/).test(c);
-    }
-
-    handleLetter(letter) {
-        this.setState(prevState => {
-            let updatedTiles = prevState.tiles.slice();
-            updatedTiles[prevState.activeTile] = letter;
-            return {tiles: updatedTiles, activeTile: prevState.activeTile + 1};
-        });
-    }
-
-    handleBackSpace() {
-        this.setState(prevState => {
-            if (prevState.activeTile % prevState.wordLength === 0) return;
-
-            let activeTile = prevState.activeTile - 1; 
-            let updatedTiles = prevState.tiles.slice();
-            updatedTiles[activeTile] = null;
-
-            return {tiles: updatedTiles, activeTile: activeTile};
-        })
     }
 
     render() {
@@ -67,13 +67,13 @@ class Board extends React.Component {
     }
     
     renderRow(index) {
-        return <Row key={index} word={this.state.word} letters={this.getRowLetters(index)} />;
+        return <Row key={index} word={this.state.word} letters={this.getRowLetters(this.state.tiles, index)} />;
     }
 
-    getRowLetters(index) {
+    getRowLetters(tiles, index) {
         const rowStart = index * this.state.wordLength; 
         const rowEnd = rowStart + this.state.wordLength;
-        const rowLetters = this.state.tiles.slice(rowStart, rowEnd);
+        const rowLetters = tiles.slice(rowStart, rowEnd);
         return rowLetters;
     }
 }
