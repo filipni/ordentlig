@@ -54,7 +54,7 @@ class Board extends React.Component {
     }
 
     getRowFromTile(tile) {
-        Math.floor(tile / wordLength);
+        return Math.floor(tile / wordLength);
     }
 
     getRowLetters(tiles, index) {
