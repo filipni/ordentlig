@@ -21,32 +21,39 @@ class Board extends React.Component {
     }
 
     handleKeyDown(e) {
-        if (this.state.gameover || this.state.activeTile >= numberOfTiles) return;
+        if (this.state.gameover) return;
+
+        const pressedKey = e.key;
 
         this.setState(prevState => {
-            if(e.key === 'Backspace')
+            if(pressedKey === 'Backspace')
             {
-                if (prevState.activeTile % wordLength === 0) return;
+                if (this.tileIsFirstInRow(prevState.activeTile)) return;
 
-                let activeTile = prevState.activeTile - 1; 
+                let nextTile = prevState.activeTile - 1; 
                 let updatedTiles = prevState.tiles.slice();
-                updatedTiles[activeTile] = null;
+                updatedTiles[nextTile] = null;
 
-                return {tiles: updatedTiles, activeTile: activeTile};
+                return {tiles: updatedTiles, activeTile: nextTile};
             }
-            else if (this.characterIsALetter(e.key))
+            else if (this.characterIsALetter(pressedKey))
             {
                 let updatedTiles = prevState.tiles.slice();
-                updatedTiles[prevState.activeTile] = e.key.toLowerCase();
+                updatedTiles[prevState.activeTile] = pressedKey.toLowerCase();
 
                 const rowIndex = this.getRowFromTile(prevState.activeTile);
                 const guessedWord = this.getRowLetters(updatedTiles, rowIndex).join("");
 
-                const gameover = guessedWord === prevState.word;
+                const nextTile = prevState.activeTile + 1;
+                const gameover = guessedWord === prevState.word || nextTile >= numberOfTiles;
 
-                return {tiles: updatedTiles, activeTile: prevState.activeTile + 1, gameover: gameover};
+                return {tiles: updatedTiles, activeTile: nextTile, gameover: gameover};
             }
         });
+    }
+
+    tileIsFirstInRow(tile) {
+        return tile % wordLength === 0
     }
 
     characterIsALetter(c) {
