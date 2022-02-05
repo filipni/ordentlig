@@ -35,7 +35,7 @@ class Board extends React.Component {
 
             return {tiles: updatedTiles, activeTile: nextTile};
         }
-        else if (this.characterIsALetter(pressedKey)) {
+        else if (this.characterIsLetter(pressedKey)) {
             let updatedTiles = prevState.tiles.slice();
             updatedTiles[prevState.activeTile] = pressedKey.toLowerCase();
 
@@ -53,7 +53,7 @@ class Board extends React.Component {
         return tile % wordLength === 0
     }
 
-    characterIsALetter(c) {
+    characterIsLetter(c) {
         return (/^[a-zA-Z]$/).test(c);
     }
 
