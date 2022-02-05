@@ -22,34 +22,31 @@ class Board extends React.Component {
 
     handleKeyDown(e) {
         if (this.state.gameover) return;
+        this.setState(prevState => this.updateState(prevState, e.key));
+    }
 
-        const pressedKey = e.key;
+    updateState(prevState, pressedKey) {
+        if(pressedKey === 'Backspace') {
+            if (this.tileIsFirstInRow(prevState.activeTile)) return;
 
-        this.setState(prevState => {
-            if(pressedKey === 'Backspace')
-            {
-                if (this.tileIsFirstInRow(prevState.activeTile)) return;
+            let nextTile = prevState.activeTile - 1; 
+            let updatedTiles = prevState.tiles.slice();
+            updatedTiles[nextTile] = null;
 
-                let nextTile = prevState.activeTile - 1; 
-                let updatedTiles = prevState.tiles.slice();
-                updatedTiles[nextTile] = null;
+            return {tiles: updatedTiles, activeTile: nextTile};
+        }
+        else if (this.characterIsALetter(pressedKey)) {
+            let updatedTiles = prevState.tiles.slice();
+            updatedTiles[prevState.activeTile] = pressedKey.toLowerCase();
 
-                return {tiles: updatedTiles, activeTile: nextTile};
-            }
-            else if (this.characterIsALetter(pressedKey))
-            {
-                let updatedTiles = prevState.tiles.slice();
-                updatedTiles[prevState.activeTile] = pressedKey.toLowerCase();
+            const rowIndex = this.getRowFromTile(prevState.activeTile);
+            const guessedWord = this.getRowLetters(updatedTiles, rowIndex).join("");
 
-                const rowIndex = this.getRowFromTile(prevState.activeTile);
-                const guessedWord = this.getRowLetters(updatedTiles, rowIndex).join("");
+            const nextTile = prevState.activeTile + 1;
+            const gameover = guessedWord === prevState.word || nextTile >= numberOfTiles;
 
-                const nextTile = prevState.activeTile + 1;
-                const gameover = guessedWord === prevState.word || nextTile >= numberOfTiles;
-
-                return {tiles: updatedTiles, activeTile: nextTile, gameover: gameover};
-            }
-        });
+            return {tiles: updatedTiles, activeTile: nextTile, gameover: gameover};
+        }
     }
 
     tileIsFirstInRow(tile) {
