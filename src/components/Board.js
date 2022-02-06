@@ -54,6 +54,14 @@ class Board extends React.Component {
             const rowIndex = this.getRowFromTile(prevState.activeTile);
             const guessedWord = this.getRowLetters(updatedTiles, rowIndex).join("");
 
+            if (guessedWord.length === prevState.word.length && !words.includes(guessedWord))
+            {
+                const startTile = rowIndex * prevState.word.length;
+                updatedTiles = updatedTiles.fill(null, startTile, startTile + prevState.word.length);
+                toast('Word does not exist!', {id: 'invalid', position: 'bottom-center'});
+                return {tiles: updatedTiles, activeTile: startTile};
+            }
+
             const nextTile = prevState.activeTile + 1;
             const gamestate = guessedWord === prevState.word ? 'winning'
                 : nextTile >= numberOfTiles ? 'loosing' : 'running';
