@@ -68,7 +68,7 @@ class Board extends React.Component {
     }
 
     characterIsLetter(c) {
-        return (/^[a-zA-Z]$/).test(c);
+        return (/^[a-zA-ZåäöÅÄÖ]$/).test(c);
     }
 
     getRowFromTile(tile) {
