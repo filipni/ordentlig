@@ -21,9 +21,11 @@ class Row extends React.Component {
         if (this.props.word[index] === letter)
             return correctColor;
         else if (this.props.word.includes(letter)) {
-            const previousOccurences = [...this.props.letters.slice(0, index)].filter(c => c === letter);
-            const countInWord = [...this.props.word].filter(c => c === letter);
-            return previousOccurences < countInWord ? partialColor : incorrectColor;
+            const wordLength = this.props.word.length;
+            const partialIndicesInGuess = [...Array(wordLength).keys()].filter(index => this.props.letters[index] === letter && this.props.word[index] !== letter);
+            const numberOfValidPartialIndices = [...this.props.word].filter((c, index) => c === letter && this.props.letters[index] !== letter).length;
+            const partialIndices =  partialIndicesInGuess.slice(0, numberOfValidPartialIndices);
+            return partialIndices.includes(index) ? partialColor : incorrectColor;
         }
 
         return incorrectColor;
