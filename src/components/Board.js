@@ -16,7 +16,7 @@ class Board extends React.Component {
             word: this.getRandomElement(words),
             activeTile: 0,
             tiles: Array(numberOfTiles).fill(null),
-            gameover: false
+            gamestate: 'running'
         };
 
         this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -28,7 +28,12 @@ class Board extends React.Component {
     }
 
     handleKeyDown(e) {
-        if (this.state.gameover) return;
+        if (this.state.gamestate !== 'running')
+        {
+            this.showResult(this.state.gamestate, this.state.word);
+            return;
+        }
+        
         this.setState(prevState => this.updateState(prevState, e.key));
     }
 
@@ -50,17 +55,20 @@ class Board extends React.Component {
             const guessedWord = this.getRowLetters(updatedTiles, rowIndex).join("");
 
             const nextTile = prevState.activeTile + 1;
-            const gameover = guessedWord === prevState.word || nextTile >= numberOfTiles;
-            
-            if (gameover) {
-                if (guessedWord === prevState.word)
-                    toast('Good job!', {icon: '👏'});
-                else
-                    toast('Better luck next time...', {icon: '😢'});
-            }
+            const gamestate = guessedWord === prevState.word ? 'winning'
+                : nextTile >= numberOfTiles ? 'loosing' : 'running';
 
-            return {tiles: updatedTiles, activeTile: nextTile, gameover: gameover};
+            this.showResult(gamestate, prevState.word);
+
+            return {tiles: updatedTiles, activeTile: nextTile, gamestate: gamestate};
         }
+    }
+
+    showResult(gamestate, word) {
+        if (gamestate === 'winning')
+            toast('Good job!', {icon: '👏', id: 'winning'});
+        else if (gamestate === 'loosing')
+            toast(`Better luck next time...\n Correct word: ${word.toUpperCase()}`, {icon: '😢', id: 'losing'});
     }
 
     tileIsFirstInRow(tile) {
