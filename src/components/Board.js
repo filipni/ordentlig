@@ -1,6 +1,7 @@
 import React from 'react';
 import Row from './Row.js';
 import '../style/Board.css'
+import words from '../words.js'
 
 const numberOfGuesses = 6;
 const wordLength = 5;
@@ -11,13 +12,18 @@ class Board extends React.Component {
         super(props);
 
         this.state = {
-            word: 'saint',
+            word: this.getRandomElement(words),
             activeTile: 0,
             tiles: Array(numberOfTiles).fill(null),
             gameover: false
         };
 
         this.handleKeyDown = this.handleKeyDown.bind(this);
+    }
+
+    getRandomElement(array) {
+        const randomIndex = Math.floor(Math.random()*array.length);
+        return array[randomIndex];
     }
 
     handleKeyDown(e) {
