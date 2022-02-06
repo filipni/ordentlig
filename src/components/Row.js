@@ -8,7 +8,7 @@ const incorrectColor = '#787c7e';
 
 class Row extends React.Component {
     renderTile(index, letter)
-    {   const rowIsNotComplete = this.props.letters.includes(null);
+    {   const rowIsNotComplete = this.props.guessedLetters.includes(null);
         const color = rowIsNotComplete ? incorrectColor : this.getTileColor(index, letter); 
 
         const hidden = letter === null;
@@ -21,11 +21,16 @@ class Row extends React.Component {
         if (this.props.word[index] === letter)
             return correctColor;
         else if (this.props.word.includes(letter)) {
-            const wordLength = this.props.word.length;
-            const partialIndicesInGuess = [...Array(wordLength).keys()].filter(index => this.props.letters[index] === letter && this.props.word[index] !== letter);
-            const numberOfValidPartialIndices = [...this.props.word].filter((c, index) => c === letter && this.props.letters[index] !== letter).length;
-            const partialIndices =  partialIndicesInGuess.slice(0, numberOfValidPartialIndices);
-            return partialIndices.includes(index) ? partialColor : incorrectColor;
+            const incorrectOcurrencesInPreviousTiles = this.props.guessedLetters
+                                                        .slice(0, index)
+                                                        .filter((c, i) => c === letter && c !== this.props.word[i])
+                                                        .length;
+            const occurencesInWord = [...this.props.word].filter(c => c === letter).length;
+            const correctOccurencesInGuess = this.props.guessedLetters
+                                                       .filter((c, i) => c === letter && c === this.props.word[i])
+                                                       .length;
+            const occurencesLeftToFind = occurencesInWord - correctOccurencesInGuess;
+            return incorrectOcurrencesInPreviousTiles < occurencesLeftToFind ? partialColor : incorrectColor;
         }
 
         return incorrectColor;
@@ -34,7 +39,7 @@ class Row extends React.Component {
     render() {
         return (
             <div className="Row">
-                {this.props.letters.map((letter, index) => this.renderTile(index, letter))}
+                {this.props.guessedLetters.map((letter, index) => this.renderTile(index, letter))}
             </div>
         );
     }

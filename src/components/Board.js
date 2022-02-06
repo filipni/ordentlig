@@ -13,7 +13,7 @@ class Board extends React.Component {
         super(props);
 
         this.state = {
-            word: this.getRandomElement(words),
+            word: 'delad',//this.getRandomElement(words),
             activeTile: 0,
             tiles: Array(numberOfTiles).fill(null),
             gamestate: 'running'
@@ -103,7 +103,7 @@ class Board extends React.Component {
     }
     
     renderRow(index) {
-        return <Row key={index} word={this.state.word} letters={this.getRowLetters(this.state.tiles, index)} />;
+        return <Row key={index} word={this.state.word} guessedLetters={this.getRowLetters(this.state.tiles, index)} />;
     }
 }
 
