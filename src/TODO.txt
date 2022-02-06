@@ -1,0 +1,2 @@
+* Only allow allow existing words as guesses
+* Add on-screen keyboard
