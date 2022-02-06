@@ -13,7 +13,7 @@ class Board extends React.Component {
         super(props);
 
         this.state = {
-            word: 'delad',//this.getRandomElement(words),
+            word: this.getRandomElement(words),
             activeTile: 0,
             tiles: Array(numberOfTiles).fill(null),
             gamestate: 'running'
