@@ -2,6 +2,7 @@ import React from 'react';
 import Row from './Row.js';
 import '../style/Board.css'
 import words from '../words.js'
+import toast, {Toaster} from 'react-hot-toast';
 
 const numberOfGuesses = 6;
 const wordLength = 5;
@@ -50,6 +51,13 @@ class Board extends React.Component {
 
             const nextTile = prevState.activeTile + 1;
             const gameover = guessedWord === prevState.word || nextTile >= numberOfTiles;
+            
+            if (gameover) {
+                if (guessedWord === prevState.word)
+                    toast('Good job!', {icon: '👏'});
+                else
+                    toast('Better luck next time...', {icon: '😢'});
+            }
 
             return {tiles: updatedTiles, activeTile: nextTile, gameover: gameover};
         }
@@ -77,6 +85,7 @@ class Board extends React.Component {
     render() {
         return (
             <div tabIndex={0} className="Board" onKeyDown={this.handleKeyDown}>
+                <Toaster />
                 <div className='Banner'>ordentlig</div>
                 {[...Array(numberOfGuesses).keys()].map((index) =>
                     this.renderRow(index)
