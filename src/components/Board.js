@@ -1,6 +1,6 @@
 import React from 'react';
 import Row from './Row.js';
-import './Board.css'
+import '../style/Board.css'
 
 const numberOfGuesses = 6;
 const wordLength = 5;

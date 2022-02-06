@@ -1,4 +1,4 @@
-import './Tile.css';
+import '../style/Tile.css';
 
 function Tile(props) {
     const style = {backgroundColor: props.color};

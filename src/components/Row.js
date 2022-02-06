@@ -1,6 +1,6 @@
 import React from 'react';
 import Tile from './Tile.js'
-import './Row.css';
+import '../style/Row.css';
 
 const correctColor = '#0f5719';
 const partialColor = '#d4af37';
