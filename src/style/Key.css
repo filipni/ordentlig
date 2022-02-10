@@ -1,0 +1,15 @@
+@import "Colors.css";
+
+.Key {
+    display: inline-block;
+    color: white;
+    background-color: var(--incorrect-color);
+    width: 40px;
+    margin: 2px;
+    padding: 5px;
+    height: 60px;
+    border: 0;
+    border-radius: 3px;
+    font-size: large;
+    font-family: sans-serif;
+}

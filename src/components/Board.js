@@ -1,5 +1,6 @@
 import React from 'react';
 import Row from './Row.js';
+import Keyboard from './Keyboard.js';
 import '../style/Board.css'
 import words from '../words.js'
 import toast, {Toaster} from 'react-hot-toast';
@@ -106,6 +107,7 @@ class Board extends React.Component {
                 {[...Array(numberOfGuesses).keys()].map((index) =>
                     this.renderRow(index)
                 )}
+                <Keyboard />
             </div>
         );
     }
