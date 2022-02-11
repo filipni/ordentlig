@@ -22,6 +22,7 @@ class Board extends React.Component {
         };
 
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleButtonPress = this.handleButtonPress.bind(this);
     }
 
     getRandomElement(array) {
@@ -30,13 +31,17 @@ class Board extends React.Component {
     }
 
     handleKeyDown(e) {
+        this.handleKey(e.key);
+    }
+
+    handleKey(key) {
         if (this.state.gamestate !== 'running')
         {
             this.showResult(this.state.gamestate, this.state.word);
             return;
         }
 
-        this.setState(prevState => this.updateState(prevState, e.key));
+        this.setState(prevState => this.updateState(prevState, key));
     }
 
     updateState(prevState, pressedKey) {
@@ -129,13 +134,19 @@ class Board extends React.Component {
                 {[...Array(numberOfGuesses).keys()].map((index) =>
                     this.renderRow(index)
                 )}
-                <Keyboard keystates={this.state.keystates} />
+                <Keyboard keystates={this.state.keystates} buttonHandler={this.handleButtonPress} />
             </div>
         );
     }
     
     renderRow(index) {
         return <Row key={index} word={this.state.word} guessedLetters={this.getRowLetters(this.state.tiles, index)} />;
+    }
+
+    handleButtonPress(e) {
+        let key = e.target.value;
+        if (key === '⌫') key = 'Backspace';
+        this.handleKey(key);
     }
 }
 

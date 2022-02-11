@@ -18,8 +18,8 @@ class Keyboard extends React.Component {
         </div>
     )}
 
-    renderButton(letter) {
-        const state = this.props.keystates[letter];
+    renderButton(key) {
+        const state = this.props.keystates[key];
 
         let style;
         switch (state) {
@@ -37,7 +37,7 @@ class Keyboard extends React.Component {
                 break;
         }
 
-        return <button className={`Key ${style}`}>{letter.toUpperCase()}</button>;
+        return <button value={key} className={`Key ${style}`} onClick={this.props.buttonHandler}>{key.toUpperCase()}</button>;
     }
 }
 
