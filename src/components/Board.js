@@ -65,7 +65,7 @@ class Board extends React.Component {
             {
                 const startTile = rowIndex * prevState.word.length;
                 updatedTiles = updatedTiles.fill(null, startTile, startTile + prevState.word.length);
-                toast('Word does not exist!', {id: 'invalid', position: 'bottom-center'});
+                toast('Ordet finns inte i listan', {id: 'invalid', position: 'bottom-center'});
 
                 return {tiles: updatedTiles, activeTile: startTile};
             }
@@ -102,9 +102,9 @@ class Board extends React.Component {
 
     showResult(gamestate, word) {
         if (gamestate === 'winning')
-            toast('Good job!', {icon: '👏', id: 'winning'});
+            toast('Bra jobbat!', {icon: '👏', id: 'winning'});
         else if (gamestate === 'loosing')
-            toast(`Better luck next time...\n Correct word: ${word.toUpperCase()}`, {icon: '😢', id: 'losing'});
+            toast(`Bättre lycka nästa gång!\n Ordet var: ${word.toUpperCase()}`, {icon: '😢', id: 'losing'});
     }
 
     tileIsFirstInRow(tile) {
