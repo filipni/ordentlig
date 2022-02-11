@@ -13,7 +13,7 @@ class Keyboard extends React.Component {
                 {['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä'].map(letter => this.renderButton(letter))}
             </div>
             <div className='KeyRow'>
-                {['enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'].map(letter => this.renderButton(letter))}
+                {['z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'].map(letter => this.renderButton(letter))}
             </div>
         </div>
     )}
