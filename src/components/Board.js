@@ -1,8 +1,8 @@
 import React from 'react';
 import Row from './Row.js';
 import Keyboard from './Keyboard.js';
-import '../style/Board.css'
-import words from '../words.js'
+import '../style/Board.css';
+import words from '../words.js';
 import toast, {Toaster} from 'react-hot-toast';
 
 const numberOfGuesses = 6;
@@ -17,7 +17,8 @@ class Board extends React.Component {
             word: this.getRandomElement(words),
             activeTile: 0,
             tiles: Array(numberOfTiles).fill(null),
-            gamestate: 'running'
+            gamestate: 'running',
+            keystates: {}
         };
 
         this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -60,7 +61,28 @@ class Board extends React.Component {
                 const startTile = rowIndex * prevState.word.length;
                 updatedTiles = updatedTiles.fill(null, startTile, startTile + prevState.word.length);
                 toast('Word does not exist!', {id: 'invalid', position: 'bottom-center'});
+
                 return {tiles: updatedTiles, activeTile: startTile};
+            }
+
+            let keystates = prevState.keystates;
+            
+            if (guessedWord.length === prevState.word.length)
+            {
+                const wordLength = prevState.word.length;
+                const getStartIndex = rowIndex => rowIndex * wordLength;
+                let guesses = [...Array(rowIndex + 1).keys()].map(i => updatedTiles.slice(getStartIndex(i), getStartIndex(i) + wordLength));
+
+                guesses.forEach(guess => {
+                    guess.forEach((c, index) => {
+                        if (c === prevState.word[index])
+                            keystates[c] = 'correct';
+                        else if (prevState.word.includes(c) && keystates[c] !== 'correct')
+                            keystates[c] = 'partial';
+                        else
+                            keystates[c] = 'incorrect';
+                    }) 
+                });
             }
 
             const nextTile = prevState.activeTile + 1;
@@ -69,7 +91,7 @@ class Board extends React.Component {
 
             this.showResult(gamestate, prevState.word);
 
-            return {tiles: updatedTiles, activeTile: nextTile, gamestate: gamestate};
+            return {tiles: updatedTiles, activeTile: nextTile, gamestate: gamestate, keystates: keystates};
         }
     }
 
@@ -107,7 +129,7 @@ class Board extends React.Component {
                 {[...Array(numberOfGuesses).keys()].map((index) =>
                     this.renderRow(index)
                 )}
-                <Keyboard />
+                <Keyboard keystates={this.state.keystates} />
             </div>
         );
     }

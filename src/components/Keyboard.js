@@ -4,23 +4,41 @@ import '../style/Keyboard.css'
 import '../style/KeyRow.css'
 
 class Keyboard extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() { return (
         <div className='Keyboard'>
             <div className='KeyRow'>
-                {['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'Å'].map(c => <button className='Key'>{c}</button>)}
+                {['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'å'].map(letter => this.renderButton(letter))}
             </div>
             <div className='KeyRow'>
-                {['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ö', 'Ä'].map(c => <button className='Key'>{c}</button>)}
+                {['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä'].map(letter => this.renderButton(letter))}
             </div>
             <div className='KeyRow'>
-                {['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '⌫'].map(c => <button className='Key'>{c}</button>)}
+                {['enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'].map(letter => this.renderButton(letter))}
             </div>
         </div>
     )}
+
+    renderButton(letter) {
+        const state = this.props.keystates[letter];
+
+        let style;
+        switch (state) {
+            case 'correct':
+                style = 'CorrectKey';
+                break;
+            case 'incorrect':
+                style = 'IncorrectKey';
+                break;
+            case 'partial':
+                style = 'PartialKey';
+                break;
+            default:
+                style = '';
+                break;
+        }
+
+        return <button className={`Key ${style}`}>{letter.toUpperCase()}</button>;
+    }
 }
 
 export default Keyboard;

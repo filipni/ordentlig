@@ -12,3 +12,18 @@
     font-size: 1em;
     font-family: sans-serif;
 }
+
+.CorrectKey {
+    background-color: var(--correct-color);
+    color: white;
+}
+
+.IncorrectKey {
+    background-color: var(--incorrect-color);
+    color: white;
+}
+
+.PartialKey {
+    background-color: var(--partial-color);
+    color: white;
+}
