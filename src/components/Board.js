@@ -65,7 +65,7 @@ class Board extends React.Component {
             {
                 const startTile = rowIndex * prevState.word.length;
                 updatedTiles = updatedTiles.fill(null, startTile, startTile + prevState.word.length);
-                toast('Ordet finns inte i listan', {id: 'invalid', position: 'bottom-center'});
+                toast('Ordet finns inte i listan', {id: 'invalid', position: 'bottom-center', duration: 500});
 
                 return {tiles: updatedTiles, activeTile: startTile};
             }
