@@ -1,9 +1,8 @@
 import '../style/Tile.css';
 
 function Tile(props) {
-    const style = {backgroundColor: props.color};
     return (
-        <div className="Tile" style={style}>
+        <div className="Tile" style={props.style}>
             {props.hidden ? '' : props.letter.toUpperCase()}
         </div>
     );

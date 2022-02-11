@@ -5,15 +5,18 @@ import '../style/Row.css';
 const correctColor = '#0f5719';
 const partialColor = '#d4af37';
 const incorrectColor = '#787c7e';
+const normalColor = '#ebebeb';
 
 class Row extends React.Component {
     renderTile(index, letter)
     {   const rowIsNotComplete = this.props.guessedLetters.includes(null);
-        const color = rowIsNotComplete ? incorrectColor : this.getTileColor(index, letter); 
+        const backgroundColor = rowIsNotComplete ? normalColor : this.getTileColor(index, letter); 
+        const color = rowIsNotComplete ? 'black' : 'white';
 
+        const style = {backgroundColor: backgroundColor, color: color};
         const hidden = letter === null;
 
-        return <Tile key={index} letter={letter} color={color} hidden={hidden} />;
+        return <Tile key={index} letter={letter} style={style} hidden={hidden} />;
     }
 
     getTileColor(index, letter)
