@@ -144,7 +144,7 @@ class Board extends React.Component {
     }
 
     handleButtonPress(e) {
-        let key = e.target.value;
+        let key = e.target.key;
         if (key === '⌫') key = 'Backspace';
         this.handleKey(key);
     }

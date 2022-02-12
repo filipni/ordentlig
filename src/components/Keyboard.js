@@ -37,7 +37,7 @@ class Keyboard extends React.Component {
                 break;
         }
 
-        return <button value={key} className={`Key ${style}`} onClick={this.props.buttonHandler}>{key.toUpperCase()}</button>;
+        return <button key={key} className={`Key ${style}`} onClick={this.props.buttonHandler}>{key.toUpperCase()}</button>;
     }
 }
 
