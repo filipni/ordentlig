@@ -2,27 +2,20 @@ import React from 'react';
 import Tile from './Tile.js'
 import '../style/Row.css';
 
-const correctColor = '#0f5719';
-const partialColor = '#d4af37';
-const incorrectColor = '#787c7e';
-const normalColor = '#ebebeb';
-
 class Row extends React.Component {
     renderTile(index, letter)
     {   const rowIsNotComplete = this.props.guessedLetters.includes(null);
-        const backgroundColor = rowIsNotComplete ? normalColor : this.getTileColor(index, letter); 
-        const color = rowIsNotComplete ? 'black' : 'white';
+        const state = rowIsNotComplete ? 'normal' : this.getTileState(index, letter); 
 
-        const style = {backgroundColor: backgroundColor, color: color};
         const hidden = letter === null;
 
-        return <Tile key={index} letter={letter} style={style} hidden={hidden} />;
+        return <Tile key={index} letter={letter} state={state} hidden={hidden} />;
     }
 
-    getTileColor(index, letter)
+    getTileState(index, letter)
     {
         if (this.props.word[index] === letter)
-            return correctColor;
+            return 'correct';
         else if (this.props.word.includes(letter)) {
             const incorrectOcurrencesInPreviousTiles = this.props.guessedLetters
                                                         .slice(0, index)
@@ -33,10 +26,10 @@ class Row extends React.Component {
                                                        .filter((c, i) => c === letter && c === this.props.word[i])
                                                        .length;
             const occurencesLeftToFind = occurencesInWord - correctOccurencesInGuess;
-            return incorrectOcurrencesInPreviousTiles < occurencesLeftToFind ? partialColor : incorrectColor;
+            return incorrectOcurrencesInPreviousTiles < occurencesLeftToFind ? 'partial' : 'incorrect';
         }
 
-        return incorrectColor;
+        return 'incorrect';
     }
 
     render() {

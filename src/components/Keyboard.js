@@ -8,15 +8,15 @@ function Keyboard(props) {
         <div className='Keyboard'>
             <div className='KeyRow'>
                 {['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'å']
-                    .map(letter => renderButton(letter, props.keyStates[letter], props.buttonHandler))}
+                    .map(key => renderButton(key, props.keyStates[key], props.buttonHandler))}
             </div>
             <div className='KeyRow'>
                 {['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä']
-                    .map(letter => renderButton(letter, props.keyStates[letter], props.buttonHandler))}
+                    .map(key => renderButton(key, props.keyStates[key], props.buttonHandler))}
             </div>
             <div className='KeyRow'>
                 {['z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫']
-                    .map(letter => renderButton(letter, props.keyStates[letter], props.buttonHandler))}
+                    .map(key => renderButton(key, props.keyStates[key], props.buttonHandler))}
             </div>
         </div>
     );
@@ -24,7 +24,7 @@ function Keyboard(props) {
 
 function renderButton(key, state, buttonHandler) {
     return (
-        <button key={key} className={`Key ${state}`} onClick={buttonHandler}>
+        <button key={key} value={key} className={`Key ${state}`} onClick={buttonHandler}>
             {key.toUpperCase()}
         </button>
     );
