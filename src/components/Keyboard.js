@@ -7,13 +7,16 @@ function Keyboard(props) {
     return (
         <div className='Keyboard'>
             <div className='KeyRow'>
-                {['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'å'].map(letter => renderButton(letter, props.keyStates[letter], props.buttonHandler))}
+                {['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'å']
+                    .map(letter => renderButton(letter, props.keyStates[letter], props.buttonHandler))}
             </div>
             <div className='KeyRow'>
-                {['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä'].map(letter => renderButton(letter, props.keyStates[letter], props.buttonHandler))}
+                {['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä']
+                    .map(letter => renderButton(letter, props.keyStates[letter], props.buttonHandler))}
             </div>
             <div className='KeyRow'>
-                {['z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'].map(letter => renderButton(letter, props.keyStates[letter], props.buttonHandler))}
+                {['z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫']
+                    .map(letter => renderButton(letter, props.keyStates[letter], props.buttonHandler))}
             </div>
         </div>
     );
