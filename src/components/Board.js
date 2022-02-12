@@ -18,7 +18,7 @@ class Board extends React.Component {
             activeTile: 0,
             tiles: Array(numberOfTiles).fill(null),
             gamestate: 'running',
-            keystates: {}
+            keyStates: {}
         };
 
         this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -35,12 +35,10 @@ class Board extends React.Component {
     }
 
     handleKey(key) {
-        if (this.state.gamestate !== 'running')
-        {
+        if (this.state.gamestate !== 'running') {
             this.showResult(this.state.gamestate, this.state.word);
             return;
         }
-
         this.setState(prevState => this.updateState(prevState, key));
     }
 
@@ -61,50 +59,53 @@ class Board extends React.Component {
             const rowIndex = this.getRowFromTile(prevState.activeTile);
             const guessedWord = this.getRowLetters(updatedTiles, rowIndex).join("");
 
-            if (guessedWord.length === prevState.word.length && !words.includes(guessedWord))
-            {
+            if (guessedWord.length === prevState.word.length && !words.includes(guessedWord)) {
                 const startTile = rowIndex * prevState.word.length;
-                updatedTiles = updatedTiles.fill(null, startTile, startTile + prevState.word.length);
-                toast('Ordet finns inte i listan', {id: 'invalid', position: 'bottom-center', duration: 500});
+                updatedTiles = updatedTiles.fill(null, startTile);
 
+                toast('Ordet finns inte i listan', {id: 'invalid', position: 'bottom-center', duration: 500});
                 return {tiles: updatedTiles, activeTile: startTile};
             }
 
-            let keystates = prevState.keystates;
-            
-            if (guessedWord.length === prevState.word.length)
-            {
-                const wordLength = prevState.word.length;
-                const getStartIndex = rowIndex => rowIndex * wordLength;
-                let guesses = [...Array(rowIndex + 1).keys()].map(i => updatedTiles.slice(getStartIndex(i), getStartIndex(i) + wordLength));
-
-                guesses.forEach(guess => {
-                    guess.forEach((c, index) => {
-                        if (c === prevState.word[index])
-                            keystates[c] = 'correct';
-                        else if (prevState.word.includes(c) && keystates[c] !== 'correct')
-                            keystates[c] = 'partial';
-                        else
-                            keystates[c] = 'incorrect';
-                    }) 
-                });
+            let keyStates = prevState.keyStates;
+            if (guessedWord.length === prevState.word.length) {
+                const guesses = this.getGuesses(updatedTiles);
+                keyStates = this.getKeyStates(prevState.word, guesses);
             }
 
             const nextTile = prevState.activeTile + 1;
-            const gamestate = guessedWord === prevState.word ? 'winning'
-                : nextTile >= numberOfTiles ? 'loosing' : 'running';
+            const gamestate = guessedWord === prevState.word ? 'won'
+                : nextTile >= numberOfTiles ? 'lost' : 'running';
 
             this.showResult(gamestate, prevState.word);
-
-            return {tiles: updatedTiles, activeTile: nextTile, gamestate: gamestate, keystates: keystates};
+            return {tiles: updatedTiles, activeTile: nextTile, gamestate: gamestate, keyStates: keyStates};
         }
     }
 
+    getGuesses(tiles) {
+        return [...Array(numberOfGuesses).keys()].map(index => this.getRowLetters(tiles, index));
+    }
+
+    getKeyStates(word, guesses) {
+        let keyStates = {};
+        guesses.forEach(guess => {
+            guess.forEach((key, index) => {
+                if (key === word[index])
+                    keyStates[key] = 'correct';
+                else if (word.includes(key) && keyStates[key] !== 'correct')
+                    keyStates[key] = 'partial';
+                else
+                    keyStates[key] = 'incorrect';
+            }) 
+        });
+        return keyStates;
+    }
+
     showResult(gamestate, word) {
-        if (gamestate === 'winning')
-            toast('Bra jobbat!', {icon: '👏', id: 'winning'});
-        else if (gamestate === 'loosing')
-            toast(`Bättre lycka nästa gång!\n Ordet var: ${word.toUpperCase()}`, {icon: '😢', id: 'losing'});
+        if (gamestate === 'won')
+            toast('Bra jobbat!', {icon: '👏', id: 'won'});
+        else if (gamestate === 'lost')
+            toast(`Bättre lycka nästa gång!\n Ordet var: ${word.toUpperCase()}`, {icon: '😢', id: 'lost'});
     }
 
     tileIsFirstInRow(tile) {
@@ -131,16 +132,15 @@ class Board extends React.Component {
             <div tabIndex={0} className="Board" onKeyDown={this.handleKeyDown}>
                 <Toaster />
                 <div className='Banner'>ordentlig</div>
-                {[...Array(numberOfGuesses).keys()].map((index) =>
-                    this.renderRow(index)
-                )}
-                <Keyboard keystates={this.state.keystates} buttonHandler={this.handleButtonPress} />
+                {this.renderRows()}
+                <Keyboard keystates={this.state.keyStates} buttonHandler={this.handleButtonPress} />
             </div>
         );
     }
-    
-    renderRow(index) {
-        return <Row key={index} word={this.state.word} guessedLetters={this.getRowLetters(this.state.tiles, index)} />;
+
+    renderRows() {
+        return [...Array(numberOfGuesses).keys()].map((index) =>
+            <Row key={index} word={this.state.word} guessedLetters={this.getRowLetters(this.state.tiles, index)} />);
     }
 
     handleButtonPress(e) {
