@@ -3,6 +3,14 @@ import Tile from './Tile.js'
 import '../style/Row.css';
 
 class Row extends React.Component {
+    render() {
+        return (
+            <div className="Row">
+                {this.props.guessedLetters.map((letter, index) => this.renderTile(index, letter))}
+            </div>
+        );
+    }
+
     renderTile(index, letter)
     {   const rowIsNotComplete = this.props.guessedLetters.includes(null);
         const state = rowIsNotComplete ? 'normal' : this.getTileState(index, letter); 
@@ -30,14 +38,6 @@ class Row extends React.Component {
         }
 
         return 'incorrect';
-    }
-
-    render() {
-        return (
-            <div className="Row">
-                {this.props.guessedLetters.map((letter, index) => this.renderTile(index, letter))}
-            </div>
-        );
     }
 }
 
