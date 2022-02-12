@@ -90,7 +90,7 @@ class Board extends React.Component {
         let keyStates = {};
         guesses.forEach(guess => {
             guess.forEach((key, index) => {
-                if (key === word[index])
+                if (key === word[index] || keyStates[key] == 'correct')
                     keyStates[key] = 'correct';
                 else if (word.includes(key) && keyStates[key] !== 'correct')
                     keyStates[key] = 'partial';
@@ -144,7 +144,7 @@ class Board extends React.Component {
     }
 
     handleButtonPress(e) {
-        let key = e.target.key;
+        let key = e.target.value;
         if (key === '⌫') key = 'Backspace';
         this.handleKey(key);
     }
