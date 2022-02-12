@@ -4,3 +4,23 @@
  --incorrect-color: #787c7e;
  --normal-color: #ebebeb;
 }
+
+.correct {
+    background-color: var(--correct-color);
+    color: white;
+}
+
+.incorrect {
+    background-color: var(--incorrect-color);
+    color: white;
+}
+
+.partial {
+    background-color: var(--partial-color);
+    color: white;
+}
+
+.normal{
+    background-color: var(--normal-color);
+    color: black;
+}

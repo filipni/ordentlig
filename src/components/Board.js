@@ -133,7 +133,7 @@ class Board extends React.Component {
                 <Toaster />
                 <div className='Banner'>ordentlig</div>
                 {this.renderRows()}
-                <Keyboard keystates={this.state.keyStates} buttonHandler={this.handleButtonPress} />
+                <Keyboard keyStates={this.state.keyStates} buttonHandler={this.handleButtonPress} />
             </div>
         );
     }
