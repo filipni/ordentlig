@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ordentlig/static/css/main.bb130f4b.css",
+    "main.js": "/ordentlig/static/js/main.26410c7e.js",
+    "index.html": "/ordentlig/index.html",
+    "main.bb130f4b.css.map": "/ordentlig/static/css/main.bb130f4b.css.map",
+    "main.26410c7e.js.map": "/ordentlig/static/js/main.26410c7e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bb130f4b.css",
+    "static/js/main.26410c7e.js"
+  ]
+}
